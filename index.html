@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chez Kristina — bistrot, Veules-les-Tulipes</title>
+  <meta name="description" content="Chez Kristina, bistrot familial en Normandie.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Kaushan+Script&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Шапка (компьютер) -->
+  <header class="site-header" id="top">
+    <nav class="site-nav" aria-label="Navigation principale">
+      <ul class="nav-group nav-group--left">
+        <li><a href="#about" data-i18n="nav.about">À propos</a></li>
+        <li><a href="#menu" data-i18n="nav.menu">Menu</a></li>
+      </ul>
+
+      <a class="logo" href="#top" aria-label="Chez Kristina">
+        <span>Chez</span>
+        <span>Kristina</span>
+        <svg class="logo__swash" viewBox="0 0 120 16" aria-hidden="true">
+          <path d="M2 11 C 22 15, 40 4, 62 8 S 98 14, 118 3" />
+        </svg>
+      </a>
+
+      <ul class="nav-group nav-group--right">
+        <li><a href="#photos" data-i18n="nav.photos">Photos</a></li>
+        <li><a href="#contacts" data-i18n="nav.contacts">Contacts</a></li>
+        <li><a class="nav-book" href="#contacts" data-i18n="nav.book">Réserver une table</a></li>
+      </ul>
+    </nav>
+
+    <div class="lang-switch" role="group" aria-label="Langue / Language">
+      <button type="button" data-lang="fr">FR</button>
+      <span aria-hidden="true">/</span>
+      <button type="button" data-lang="en">EN</button>
+    </div>
+  </header>
+
+  <!-- Мобильное меню -->
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav">
+    <span class="menu-toggle__bar"></span>
+    <span class="menu-toggle__bar"></span>
+    <span class="menu-toggle__bar"></span>
+    <span class="visually-hidden" data-i18n="nav.open">Ouvrir le menu</span>
+  </button>
+
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Navigation mobile" hidden>
+    <a class="logo" href="#top" aria-label="Chez Kristina">
+      <span>Chez</span>
+      <span>Kristina</span>
+      <svg class="logo__swash" viewBox="0 0 120 16" aria-hidden="true">
+        <path d="M2 11 C 22 15, 40 4, 62 8 S 98 14, 118 3" />
+      </svg>
+    </a>
+    <ul>
+      <li><a href="#about" data-i18n="nav.about">À propos</a></li>
+      <li><a href="#menu" data-i18n="nav.menu">Menu</a></li>
+      <li><a href="#photos" data-i18n="nav.photos">Photos</a></li>
+      <li><a href="#contacts" data-i18n="nav.contacts">Contacts</a></li>
+      <li><a class="nav-book" href="#contacts" data-i18n="nav.book">Réserver une table</a></li>
+    </ul>
+    <div class="lang-switch" role="group" aria-label="Langue / Language">
+      <button type="button" data-lang="fr">FR</button>
+      <span aria-hidden="true">/</span>
+      <button type="button" data-lang="en">EN</button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- 1. Первый экран -->
+    <section class="hero" aria-label="Bienvenue">
+      <div class="hero__content">
+        <h1 class="hero__title">Bienvenue</h1>
+      </div>
+      <div class="hero__actions">
+        <a class="btn" href="#contacts" data-i18n="nav.book">Réserver une table</a>
+        <a class="hero__link" href="#menu" data-i18n="hero.viewMenu">Voir le menu</a>
+      </div>
+    </section>
+
+    <!-- 2. About us (пока пусто) -->
+    <section class="section section--placeholder" id="about">
+      <h2 class="section__title" data-i18n="nav.about">À propos</h2>
+    </section>
+
+    <!-- 3. Меню (пока пусто) -->
+    <section class="section section--placeholder" id="menu">
+      <h2 class="section__title" data-i18n="nav.menu">Menu</h2>
+    </section>
+
+    <!-- 4. Фотографии (пока пусто) -->
+    <section class="section section--placeholder" id="photos">
+      <h2 class="section__title" data-i18n="nav.photos">Photos</h2>
+    </section>
+
+    <!-- 5. Рассылка (пока пусто) -->
+    <section class="section section--placeholder" id="newsletter">
+      <h2 class="section__title" data-i18n="section.newsletter">Newsletter</h2>
+    </section>
+  </main>
+
+  <!-- 6. Футер (пока пусто) -->
+  <footer class="section section--placeholder site-footer" id="contacts">
+    <h2 class="section__title" data-i18n="nav.contacts">Contacts</h2>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
