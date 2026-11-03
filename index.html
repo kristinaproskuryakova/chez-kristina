@@ -8,7 +8,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Kaushan+Script&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Allison&family=Great+Vibes&family=Kaushan+Script&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -86,9 +86,95 @@
       </div>
     </section>
 
-    <!-- 2. About us (пока пусто) -->
-    <section class="section section--placeholder" id="about">
+    <!-- 2. About us: таймлайн -->
+    <section class="section about" id="about">
       <h2 class="section__title" data-i18n="nav.about">À propos</h2>
+
+      <div class="timeline-wrap">
+      <!-- Подсказка: рука «нажимает» на фото в центре (только на компьютере) -->
+      <div class="tap-hint" aria-hidden="true">
+        <span class="tap-hint__ripple"></span>
+        <svg class="tap-hint__hand" viewBox="0 0 24 24">
+          <path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/>
+        </svg>
+      </div>
+
+      <div class="timeline" tabindex="0" aria-label="Timeline">
+        <!-- Каждая карточка: фото спереди, надпись от руки на обороте.
+             --ratio — пропорции фото (ширина / высота). -->
+        <ol class="timeline__track">
+          <li class="moment" style="--ratio: 0.75">
+            <button class="moment__card" type="button" aria-pressed="false">
+              <span class="moment__inner">
+                <span class="moment__face moment__face--front">
+                  <img src="images/chris-curry-mnOBoI5Bm94-unsplash.jpg" width="1050" height="1400" alt="">
+                </span>
+                <span class="moment__face moment__face--back">
+                  <span class="moment__year">1988</span>
+                  <span data-i18n="about.1988">Kristina naît en Normandie, dans une famille qui tient la boulangerie du village</span>
+                </span>
+              </span>
+            </button>
+          </li>
+          <li class="moment" style="--ratio: 0.667">
+            <button class="moment__card" type="button" aria-pressed="false">
+              <span class="moment__inner">
+                <span class="moment__face moment__face--front">
+                  <img src="images/christian-bowen-TOKVE7PNwAc-unsplash.jpg" width="934" height="1400" alt="">
+                </span>
+                <span class="moment__face moment__face--back">
+                  <span class="moment__year">1991</span>
+                  <span data-i18n="about.1991">Kristina fait du pain avec sa grand-mère</span>
+                </span>
+              </span>
+            </button>
+          </li>
+          <li class="moment" style="--ratio: 1.5">
+            <button class="moment__card" type="button" aria-pressed="false">
+              <span class="moment__inner">
+                <span class="moment__face moment__face--front">
+                  <img src="images/tr-ng-trung-c-p-kinh-t-du-l-ch-thanh-ph-h-chi-minh-cet-GF_XTjtTSgc-unsplash.jpg" width="1400" height="933" alt="">
+                </span>
+                <span class="moment__face moment__face--back">
+                  <span class="moment__year">2008</span>
+                  <span data-i18n="about.2008">Premier emploi : commis de cuisine dans un restaurant vietnamien à Paris</span>
+                </span>
+              </span>
+            </button>
+          </li>
+          <li class="moment" style="--ratio: 0.667">
+            <button class="moment__card" type="button" aria-pressed="false">
+              <span class="moment__inner">
+                <span class="moment__face moment__face--front">
+                  <img src="images/martin-baron-0sbq9Rxcx-c-unsplash.jpg" width="933" height="1400" alt="">
+                </span>
+                <span class="moment__face moment__face--back">
+                  <span class="moment__year">2012</span>
+                  <span data-i18n="about.2012">Kristina devient sous-chef dans un bistrot parisien</span>
+                </span>
+              </span>
+            </button>
+          </li>
+          <li class="moment" style="--ratio: 1.5">
+            <button class="moment__card" type="button" aria-pressed="false">
+              <span class="moment__inner">
+                <span class="moment__face moment__face--front">
+                  <img src="images/camille-brodard-p5IyIl4wIfU-unsplash.jpg" width="1400" height="933" alt="">
+                </span>
+                <span class="moment__face moment__face--back">
+                  <span class="moment__year">2018</span>
+                  <span data-i18n="about.2018">Kristina revient à Veules-les-Tulipes et y ouvre son premier bistrot</span>
+                </span>
+              </span>
+            </button>
+          </li>
+        </ol>
+      </div>
+      </div>
+
+      <blockquote class="about__quote">
+        <p data-i18n="about.quote">« J'ai toujours rêvé d'ouvrir mon propre lieu, où je pourrais faire découvrir à mes hôtes les recettes de ma famille »</p>
+      </blockquote>
     </section>
 
     <!-- 3. Меню (пока пусто) -->
