@@ -75,6 +75,11 @@
   --dish-size: 2.52cqi;       /* название блюда (15 pt), состав — 0.8 от него (12 pt) */
   --dish-gap: 3.7cqi;         /* расстояние между блюдами */
   --list-top: 26.6%;          /* где начинается список блюд по высоте страницы */
+
+  /* Коллаж фотографий */
+  --collage-gap: 6px;         /* промежуток между фото */
+  --collage-radius: 0;        /* скругление углов фото (0 — прямые углы) */
+  --collage-zoom: 1.05;       /* насколько фото увеличивается при наведении */
   --color-caption-bg: rgba(10, 11, 10, 0.6); /* полоса под подписью на фото (--sage-700) */
   --color-caption-text: var(--brown-100);    /* текст подписи на фото */
 
@@ -870,6 +875,64 @@ button {
 }
 
 /* ==========================================================================
+   Фотографии: коллаж на один экран под шапкой
+   ========================================================================== */
+/* Блок = экран минус шапка: заголовок сверху, коллаж забирает остальную высоту.
+   Слева, справа и снизу полей нет — крайние фото уходят за край экрана */
+.section.photos {
+  display: flex;
+  flex-direction: column;
+  height: calc(100svh - var(--header-h));
+  padding: 1.5rem 0 0;
+  background: var(--color-bg);
+}
+
+.photos .section__title {
+  margin-bottom: 1rem;
+}
+
+/* Схема коллажа: что где стоит. Высокие фото занимают оба ряда */
+.collage {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-areas:
+    "kitchen facade chefs  courtyard"
+    "dish    facade dining courtyard";
+  gap: var(--collage-gap);
+  flex: 1;
+  min-height: 0;
+}
+
+.collage__item {
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--collage-radius);
+}
+
+.collage__item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focus, 50% 50%);
+  transition: transform 0.6s ease;
+}
+
+/* При наведении фото немного увеличивается внутри своей ячейки */
+.collage__item:hover img {
+  transform: scale(var(--collage-zoom));
+}
+
+/* Место каждого фото в схеме и точка кадрирования (что остаётся в центре) */
+.collage__item--kitchen   { grid-area: kitchen;   --focus: 30% 60%; }
+.collage__item--facade    { grid-area: facade;    --focus: 55% 60%; }
+.collage__item--chefs     { grid-area: chefs;     --focus: 40% 50%; }
+.collage__item--courtyard { grid-area: courtyard; --focus: 60% 55%; }
+.collage__item--dish      { grid-area: dish;      --focus: 55% 55%; }
+.collage__item--dining    { grid-area: dining;    --focus: 50% 40%; }
+
+/* ==========================================================================
    Разделы-заглушки
    ========================================================================== */
 .section {
@@ -952,6 +1015,22 @@ button {
 
   .about {
     --pattern-size: 300px;
+  }
+
+  /* Коллаж на телефоне: две колонки, высокие фото по-прежнему на два ряда */
+  .collage {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 42vw);
+    grid-template-areas:
+      "kitchen facade"
+      "dish    facade"
+      "chefs   courtyard"
+      "dining  courtyard";
+    flex: none;
+  }
+
+  .section.photos {
+    height: auto;
   }
 
   /* Меню на телефоне: без фото и без наклона, с отступами от краёв экрана */
