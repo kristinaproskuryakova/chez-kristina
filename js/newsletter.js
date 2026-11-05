@@ -114,7 +114,7 @@ function validateChecks() {
   return ok;
 }
 
-nlForm.addEventListener("submit", (e) => {
+nlForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const emailOk = validateEmail();
   const checksOk = validateChecks();
@@ -125,7 +125,25 @@ nlForm.addEventListener("submit", (e) => {
   }
   if (!checksOk) return;
 
-  // TODO: здесь отправить адрес в сервис рассылок (например, Brevo) — пока никуда не уходит
+  // Адрес записывается в Google Таблицу «Chez Kristina — Newsletter» (см. js/config.js)
+  const submit = nlForm.querySelector('button[type="submit"]');
+  submit.disabled = true;
+  submit.textContent = nlText("newsletter.sending");
+  const ok = await sendToSheet({
+    type: "newsletter",
+    email: nlEmail.value,
+    marketing: nlChecks[0].checked,
+    contact: nlChecks[1].checked,
+    lang: document.documentElement.lang
+  });
+  submit.disabled = false;
+  submit.textContent = nlText("newsletter.button");
+
+  if (!ok) {
+    nlCheckError.textContent = nlText("newsletter.errSend");
+    return;
+  }
+
   nlForm.hidden = true;
   nlDone.hidden = false;
 });
