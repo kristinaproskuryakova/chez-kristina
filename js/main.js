@@ -16,8 +16,7 @@ const translations = {
     "about.1991": "Kristina fait du pain avec sa grand-mère",
     "about.2008": "Premier emploi : commis de cuisine dans un restaurant vietnamien à Paris",
     "about.2012": "Kristina devient sous-chef dans un bistrot parisien",
-    "about.2018": "Kristina revient à Veules-les-Tulipes et y ouvre son premier bistrot",
-    "about.quote": "« J'ai toujours rêvé d'ouvrir mon propre lieu, où je pourrais faire découvrir à mes hôtes les recettes de ma famille »"
+    "about.2018": "Kristina revient à Veules-les-Tulipes et y ouvre son premier bistrot"
   },
   en: {
     "nav.about": "About us",
@@ -33,8 +32,7 @@ const translations = {
     "about.1991": "Kristina making bread with her grandma",
     "about.2008": "First job as a cook assistant in the Vietnamese restaurant in Paris",
     "about.2012": "Kristina became a sous chef in a Parisian bistrot",
-    "about.2018": "Kristina comes back to Veules-les-Tulipes and opens her first bistrot there",
-    "about.quote": "“I always dreamed about opening my own place where I could show to my guests recipes of my family”"
+    "about.2018": "Kristina comes back to Veules-les-Tulipes and opens her first bistrot there"
   }
 };
 
@@ -128,21 +126,15 @@ function updateHeader() {
 window.addEventListener("scroll", updateHeader, { passive: true });
 
 /* ==========================================================================
-   Таймлайн About us: подсвечено фото по центру, по нажатию оно переворачивается
+   Таймлайн About us: подсвечено фото по центру, лента листается сама
    ========================================================================== */
 const timeline = document.querySelector(".timeline");
 const moments = [...timeline.querySelectorAll(".moment")];
 let scrollTimer = null;
 
-function setFlipped(moment, flipped) {
-  moment.querySelector(".moment__card").setAttribute("aria-pressed", String(flipped));
-}
-
 function setActive(active) {
   moments.forEach((moment) => {
-    const isActive = moment === active;
-    moment.classList.toggle("is-active", isActive);
-    if (!isActive) setFlipped(moment, false);
+    moment.classList.toggle("is-active", moment === active);
   });
 }
 
@@ -164,58 +156,59 @@ function findCentered() {
   return closest;
 }
 
-function isFlipped(moment) {
-  return moment.querySelector(".moment__card").getAttribute("aria-pressed") === "true";
-}
-
-// Плавно поставить фото в центр ленты (страница при этом не прыгает)
-function scrollToMoment(moment) {
-  const box = timeline.getBoundingClientRect();
-  const r = moment.getBoundingClientRect();
-  const left = timeline.scrollLeft + (r.left + r.width / 2) - (box.left + box.width / 2);
-  timeline.scrollTo({ left, behavior: "smooth" });
-}
-
 // Подсветку меняем, когда лента остановилась
 timeline.addEventListener("scroll", () => {
   clearTimeout(scrollTimer);
   scrollTimer = setTimeout(() => setActive(findCentered()), 120);
 }, { passive: true });
 
-const tapHint = document.querySelector(".tap-hint");
+/* Плавная прокрутка ленты с заданной длительностью */
+let scrollAnimation = null;
 
-moments.forEach((moment) => {
-  moment.querySelector(".moment__card").addEventListener("click", () => {
-    tapHint.classList.add("is-hidden"); // гость понял, что фото переворачиваются
-    if (moment.classList.contains("is-active")) {
-      setFlipped(moment, !isFlipped(moment));
+function stopScrollAnimation() {
+  if (scrollAnimation) cancelAnimationFrame(scrollAnimation);
+  scrollAnimation = null;
+  timeline.classList.remove("is-animating");
+}
+
+function easeInOut(t) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+function scrollToMoment(moment, duration) {
+  const box = timeline.getBoundingClientRect();
+  const r = moment.getBoundingClientRect();
+  const from = timeline.scrollLeft;
+  const to = from + (r.left + r.width / 2) - (box.left + box.width / 2);
+  const start = performance.now();
+
+  stopScrollAnimation();
+  timeline.classList.add("is-animating");
+
+  function frame(now) {
+    const t = Math.min((now - start) / duration, 1);
+    timeline.scrollLeft = from + (to - from) * easeInOut(t);
+    if (t < 1) {
+      scrollAnimation = requestAnimationFrame(frame);
     } else {
-      // Нажали на затемнённое фото: подвинуть его в центр и сразу перевернуть
-      setActive(moment);
-      setFlipped(moment, true);
-      scrollToMoment(moment);
+      stopScrollAnimation();
     }
-  });
-});
-
-setActive(findCentered());
+  }
+  scrollAnimation = requestAnimationFrame(frame);
+}
 
 /* --------------------------------------------------------------------------
-   Автопрокрутка.
-   Компьютер: каждые несколько секунд следующее фото, пауза под курсором.
-   Телефон: фото само переворачивается, показывает надпись и возвращается.
+   Автопрокрутка: каждое фото стоит STEP_DELAY, потом следующее.
+   После последнего фото — быстрая перемотка к первому.
    -------------------------------------------------------------------------- */
-const STEP_DELAY = 4500;    // компьютер: сколько стоит одно фото
-const FLIP_DELAY = 1500;    // телефон: пауза перед переворотом
-const READ_DELAY = 4500;    // телефон: сколько показывается надпись
-const RETURN_DELAY = 900;   // телефон: пауза после обратного переворота
-const RESUME_DELAY = 6000;  // пауза после того, как гость сам полистал или нажал
+const STEP_DELAY = 3500;      // сколько стоит одно фото
+const STEP_DURATION = 700;    // переход к следующему фото
+const REWIND_DURATION = 1000; // быстрая перемотка с последнего фото на первое
+const RESUME_DELAY = 6000;    // пауза после того, как гость сам полистал или нажал
 
-const autoFlipQuery = window.matchMedia("(hover: none), (max-width: 860px)");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 let autoTimer = null;
-let phase = "arrived";      // arrived → shown → back → (следующее фото)
 let hovered = false;
 let visible = false;
 let pausedUntil = 0;
@@ -229,52 +222,36 @@ function canPlay() {
   return visible && !hovered && !document.hidden && Date.now() > pausedUntil;
 }
 
-function goNext() {
-  const current = moments.findIndex((m) => m.classList.contains("is-active"));
-  const next = moments[(current + 1) % moments.length];
-  setActive(next);
-  scrollToMoment(next);
-}
-
 function tick() {
   if (!canPlay()) {
     schedule(500);
     return;
   }
 
-  const active = moments.find((m) => m.classList.contains("is-active"));
+  const current = moments.findIndex((m) => m.classList.contains("is-active"));
+  const isLast = current === moments.length - 1;
+  const next = moments[isLast ? 0 : current + 1];
 
-  if (autoFlipQuery.matches) {
-    if (phase === "arrived" && !isFlipped(active)) {
-      setFlipped(active, true);
-      phase = "shown";
-      schedule(READ_DELAY);
-      return;
-    }
-    if (phase === "shown") {
-      setFlipped(active, false);
-      phase = "back";
-      schedule(RETURN_DELAY);
-      return;
-    }
-  } else if (isFlipped(active)) {
-    // На компьютере гость перевернул фото — ждём, пока он вернёт его обратно
-    schedule(1000);
-    return;
-  }
-
-  goNext();
-  phase = "arrived";
-  schedule(autoFlipQuery.matches ? FLIP_DELAY : STEP_DELAY);
+  setActive(next);
+  scrollToMoment(next, isLast ? REWIND_DURATION : STEP_DURATION);
+  schedule(STEP_DELAY + (isLast ? REWIND_DURATION : STEP_DURATION));
 }
 
 function pauseByGuest() {
+  stopScrollAnimation();
   pausedUntil = Date.now() + RESUME_DELAY;
-  phase = "arrived";
 }
 
-["pointerdown", "wheel", "keydown"].forEach((type) => {
+["pointerdown", "wheel", "touchstart", "keydown"].forEach((type) => {
   timeline.addEventListener(type, pauseByGuest, { passive: true });
+});
+
+// Нажали на затемнённое фото — подвинуть его в центр
+moments.forEach((moment) => {
+  moment.addEventListener("click", () => {
+    setActive(moment);
+    scrollToMoment(moment, STEP_DURATION);
+  });
 });
 
 // Пауза под курсором — только для настоящей мыши, не для касаний
@@ -286,8 +263,10 @@ new IntersectionObserver(([entry]) => {
   visible = entry.isIntersecting;
 }, { threshold: 0.5 }).observe(timeline);
 
+setActive(findCentered());
+
 if (!reducedMotion) {
-  schedule(autoFlipQuery.matches ? FLIP_DELAY : STEP_DELAY);
+  schedule(STEP_DELAY);
 }
 
 /* ==========================================================================

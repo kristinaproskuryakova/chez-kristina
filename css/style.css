@@ -60,14 +60,18 @@
   --color-btn-bg: var(--olive-500);
   --color-btn-bg-hover: var(--olive-600);
   --color-btn-text: var(--olive-100);
-  --color-paper: var(--olive-100);      /* оборот фотографий */
-  --color-ink: var(--green-600);        /* надписи от руки */
   --color-dim: rgba(40, 36, 30, 0.6);   /* затемнение неактивных фото (--brown-700) */
+  --color-caption-bg: rgba(10, 11, 10, 0.6); /* полоса под подписью на фото (--sage-700) */
+  --color-caption-text: var(--brown-100);    /* текст подписи на фото */
+
+  /* Паттерн из набросков на фоне About us.
+     Рисунок уже окрашен в --sage-200 (#ADB3AA), файл images/pattern-sketches.png */
+  --pattern-opacity: 0.3;
+  --pattern-size: 420px;
 
   /* Шрифты */
   --font-logo: "Kaushan Script", "Segoe Script", cursive;      /* название ресторана */
   --font-script: "Great Vibes", "Segoe Script", cursive;       /* Bienvenue, цитата, заголовки */
-  --font-hand: "Allison", "Segoe Script", cursive;             /* надписи на обороте фото */
   --font-body: "Lora", Georgia, "Times New Roman", serif;
 
   /* Наклон логотипа */
@@ -400,19 +404,37 @@ button {
 }
 
 /* ==========================================================================
-   About us: таймлайн из карточек-перевёртышей
+   About us: таймлайн с подписями на фото
    ========================================================================== */
 .about {
   --card-h: clamp(360px, 60vh, 560px);
   --card-max-w: 82vw;
+  position: relative;
+  isolation: isolate;
 }
 
-.timeline-wrap {
-  position: relative;
-  margin: 2.5rem calc(var(--gutter) * -1) 0;
+/* Отступы раздела сверху и снизу (у остальных разделов 5rem).
+   .section.about — чтобы правило было сильнее общего .section ниже */
+.section.about {
+  padding-top: 3.25rem;
+  padding-bottom: 2.5rem;
+}
+
+/* Бледный повторяющийся паттерн из набросков.
+   Насколько бледный — --pattern-opacity, размер — --pattern-size */
+.about::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("../images/pattern-sketches.png") 0 0 / var(--pattern-size) repeat;
+  opacity: var(--pattern-opacity);
+  pointer-events: none;
 }
 
 .timeline {
+  /* Расстояние от заголовка «À propos» до фото */
+  margin: 1.25rem calc(var(--gutter) * -1) 0;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
@@ -423,6 +445,11 @@ button {
   display: none;
 }
 
+/* Во время автопрокрутки «защёлкивание» отключаем, чтобы оно не мешало */
+.timeline.is-animating {
+  scroll-snap-type: none;
+}
+
 .timeline__track {
   display: flex;
   align-items: center;
@@ -430,7 +457,7 @@ button {
   width: max-content;
   margin: 0;
   /* Поля по краям, чтобы первое и последнее фото тоже вставали по центру */
-  padding: 1.5rem max(var(--gutter), calc(50vw - var(--card-h) * 0.33));
+  padding: 0.75rem max(var(--gutter), calc(50vw - var(--card-h) * 0.33));
   list-style: none;
 }
 
@@ -447,13 +474,39 @@ button {
 
 .moment__card {
   position: relative;
-  display: block;
   width: min(calc(var(--card-h) * var(--ratio)), var(--card-max-w));
   aspect-ratio: var(--ratio);
-  padding: 0;
-  perspective: 1600px;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 3px;
+  box-shadow: 0 6px 20px rgba(10, 11, 10, 0.18);
   container-type: inline-size;
-  -webkit-tap-highlight-color: transparent;
+}
+
+.moment__card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Подпись: белый текст на тёмной прозрачной полосе внизу фото */
+.moment__caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.7rem 1rem 0.8rem;
+  font-family: var(--font-body);
+  font-size: clamp(0.8rem, 4.2cqi, 1rem);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--color-caption-text);
+  background: var(--color-caption-bg);
+}
+
+.moment__year {
+  font-weight: 700;
 }
 
 /* Затемнение неактивных фото */
@@ -462,7 +515,6 @@ button {
   position: absolute;
   inset: 0;
   z-index: 2;
-  border-radius: 3px;
   background: var(--color-dim);
   pointer-events: none;
   transition: opacity 0.6s ease;
@@ -470,138 +522,6 @@ button {
 
 .moment.is-active .moment__card::after {
   opacity: 0;
-}
-
-/* Переворот */
-.moment__inner {
-  position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
-  transition: transform 0.8s cubic-bezier(0.45, 0.05, 0.25, 1);
-}
-
-.moment__card[aria-pressed="true"] .moment__inner {
-  transform: rotateY(180deg);
-}
-
-.moment__face {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  border-radius: 3px;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  box-shadow: 0 6px 20px rgba(10, 11, 10, 0.18);
-}
-
-.moment__face--front img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Оборот фотографии: бумага и надпись от руки по центру */
-.moment__face--back {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3em;
-  padding: 10%;
-  text-align: center;
-  font-family: var(--font-hand);
-  font-weight: 400;
-  font-size: clamp(1.6rem, 10.5cqi, 2.9rem);
-  line-height: 1;
-  color: var(--color-ink);
-  background:
-    radial-gradient(ellipse at center, transparent 60%, rgba(115, 103, 90, 0.18) 100%),
-    var(--color-paper);
-  transform: rotateY(180deg);
-}
-
-.moment__year {
-  font-size: 1.8em;
-  line-height: 1;
-}
-
-/* Подсказка «переверни фото»: рука нажимает на фото в центре.
-   Активное фото всегда по центру, поэтому рука стоит на месте. */
-.tap-hint {
-  position: absolute;
-  left: 50%;
-  top: 62%;
-  z-index: 5;
-  width: 0;
-  height: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
-}
-
-/* Прячем, когда гость уже нажимал на фото или фото перевёрнуто */
-.tap-hint.is-hidden,
-.timeline-wrap:has(.moment__card[aria-pressed="true"]) .tap-hint {
-  opacity: 0;
-}
-
-.tap-hint__hand {
-  position: absolute;
-  /* кончик пальца — в точке (0, 0) подсказки */
-  left: -40px;
-  top: -17px;
-  width: 84px;
-  height: 84px;
-  fill: var(--brown-100);
-  stroke: var(--sage-700);
-  stroke-width: 0.6;
-  filter: drop-shadow(0 3px 6px rgba(10, 11, 10, 0.45));
-  transform-origin: 40px 17px;
-  animation: tap-hand 3.2s ease-in-out infinite;
-}
-
-.tap-hint__ripple {
-  position: absolute;
-  left: -28px;
-  top: -28px;
-  width: 56px;
-  height: 56px;
-  border: 2px solid var(--brown-100);
-  border-radius: 50%;
-  opacity: 0;
-  animation: tap-ripple 3.2s ease-out infinite;
-}
-
-@keyframes tap-hand {
-  0%   { transform: translate(70px, 60px); opacity: 0; }
-  15%  { opacity: 1; }
-  40%  { transform: translate(0, 0) scale(1); }
-  48%  { transform: translate(0, 0) scale(0.82); }
-  56%  { transform: translate(0, 0) scale(1); }
-  80%  { transform: translate(0, 0); opacity: 1; }
-  100% { transform: translate(70px, 60px); opacity: 0; }
-}
-
-@keyframes tap-ripple {
-  0%, 47% { transform: scale(0.3); opacity: 0; }
-  50%     { transform: scale(0.5); opacity: 0.9; }
-  75%     { transform: scale(1.6); opacity: 0; }
-  100%    { opacity: 0; }
-}
-
-.about__quote {
-  max-width: 40rem;
-  margin: 2rem auto 0;
-  padding: 0;
-  text-align: center;
-  font-family: var(--font-script);
-  font-size: clamp(1.9rem, 5vw, 2.6rem);
-  line-height: 1.25;
-  color: var(--color-accent);
-}
-
-.about__quote p {
-  margin: 0;
 }
 
 /* ==========================================================================
@@ -685,16 +605,8 @@ button {
     gap: 0.75rem;
   }
 
-  /* На телефоне фото переворачиваются сами — подсказка не нужна */
-  .tap-hint {
-    display: none;
-  }
-}
-
-/* Планшеты и другие сенсорные экраны: фото тоже переворачиваются сами */
-@media (hover: none) {
-  .tap-hint {
-    display: none;
+  .about {
+    --pattern-size: 300px;
   }
 }
 
@@ -705,13 +617,5 @@ button {
 
   * {
     transition: none !important;
-  }
-
-  .tap-hint__hand {
-    animation: none;
-  }
-
-  .tap-hint__ripple {
-    display: none;
   }
 }
