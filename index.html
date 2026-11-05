@@ -82,7 +82,7 @@
       </div>
       <div class="hero__actions">
         <a class="btn" href="#contacts" data-i18n="nav.book">Réserver une table</a>
-        <a class="hero__link" href="#menu" data-i18n="hero.viewMenu">Voir le menu</a>
+        <a class="hero__link" href="#menu" data-open-menu data-i18n="hero.viewMenu">Voir le menu</a>
       </div>
     </section>
 
@@ -143,9 +143,26 @@
       </div>
     </section>
 
-    <!-- 3. Меню (пока пусто) -->
-    <section class="section section--placeholder" id="menu">
-      <h2 class="section__title" data-i18n="nav.menu">Menu</h2>
+    <!-- 3. Меню: фото слева, карточка меню справа, по нажатию — окно с книгой -->
+    <section class="section menu" id="menu">
+      <!-- Заголовок только для экранных дикторов: на экране и так видно, что это меню -->
+      <h2 class="visually-hidden" data-i18n="nav.menu">Menu</h2>
+
+      <div class="menu__layout">
+        <figure class="menu__photo">
+          <img src="images/menu-oysters.jpg" width="1600" height="1600" alt="" loading="lazy">
+        </figure>
+
+        <button class="menu-card" type="button" data-open-menu aria-haspopup="dialog" aria-controls="menu-dialog">
+          <!-- Обложка как в Canva: скетч, под ним «Menu» по центру, «Chez Kristina» мелко внизу -->
+          <span class="menu-card__paper">
+            <span class="cover-sketch"><img src="images/oysters-sketch.png" width="486" height="446" alt=""></span>
+            <span class="menu-card__title" data-i18n="nav.menu">Menu</span>
+            <span class="menu-card__name">Chez Kristina</span>
+          </span>
+          <span class="visually-hidden" data-i18n="menu.open">Ouvrir le menu</span>
+        </button>
+      </div>
     </section>
 
     <!-- 4. Фотографии (пока пусто) -->
@@ -164,6 +181,31 @@
     <h2 class="section__title" data-i18n="nav.contacts">Contacts</h2>
   </footer>
 
+  <!-- Окно с меню: страницы листаются как книга, содержимое строит js/menu.js -->
+  <dialog class="menu-dialog" id="menu-dialog" aria-label="Menu">
+    <button class="menu-dialog__close" type="button" data-close-menu>
+      <span aria-hidden="true">×</span>
+      <span class="visually-hidden" data-i18n="menu.close">Fermer</span>
+    </button>
+
+    <div class="book">
+      <nav class="book__tabs" aria-label="Menu"></nav>
+      <div class="book__pages"></div>
+      <div class="book__controls">
+        <button class="book__arrow" type="button" data-book="prev">
+          <span aria-hidden="true">←</span>
+          <span class="visually-hidden" data-i18n="menu.prev">Page précédente</span>
+        </button>
+        <span class="book__counter"></span>
+        <button class="book__arrow" type="button" data-book="next">
+          <span aria-hidden="true">→</span>
+          <span class="visually-hidden" data-i18n="menu.next">Page suivante</span>
+        </button>
+      </div>
+    </div>
+  </dialog>
+
   <script src="js/main.js"></script>
+  <script src="js/menu.js"></script>
 </body>
 </html>

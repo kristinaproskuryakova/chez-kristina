@@ -61,6 +61,20 @@
   --color-btn-bg-hover: var(--olive-600);
   --color-btn-text: var(--olive-100);
   --color-dim: rgba(40, 36, 30, 0.6);   /* затемнение неактивных фото (--brown-700) */
+  --color-paper: var(--olive-100);      /* бумага меню */
+  --color-menu-title: var(--green-600); /* заголовки страниц меню */
+  --color-menu-text: var(--sage-700);   /* блюда и цены */
+  --color-backdrop: rgba(10, 11, 10, 0.65); /* затемнение страницы под окном меню */
+
+  /* Пропорции страниц меню из Canva (cqi — % ширины страницы) */
+  --cover-title-size: 19cqi;  /* «Menu» на обложке */
+  --sketch-width: 28cqi;      /* скетч устриц над «Menu» */
+  --page-title-size: 13.4cqi; /* Appetizers / Main course / Wine List */
+  --footer-size: 4.4cqi;      /* «Chez Kristina» внизу страницы */
+  --footer-top: 92.7%;        /* где стоит «Chez Kristina» по высоте */
+  --dish-size: 2.52cqi;       /* название блюда (15 pt), состав — 0.8 от него (12 pt) */
+  --dish-gap: 3.7cqi;         /* расстояние между блюдами */
+  --list-top: 26.6%;          /* где начинается список блюд по высоте страницы */
   --color-caption-bg: rgba(10, 11, 10, 0.6); /* полоса под подписью на фото (--sage-700) */
   --color-caption-text: var(--brown-100);    /* текст подписи на фото */
 
@@ -525,6 +539,337 @@ button {
 }
 
 /* ==========================================================================
+   Меню: фото слева, карточка меню справа
+   ========================================================================== */
+.menu {
+  /* Высота карточки меню: весь раздел помещается в один экран */
+  --menu-h: clamp(300px, calc(100svh - var(--header-h) - 8rem), 600px);
+  background: var(--color-bg-alt);
+}
+
+/* Раздел — ровно один экран под шапкой, без полей: фото прилегает к краям */
+.section.menu {
+  padding: 0;
+}
+
+.menu__layout {
+  display: flex;
+  min-height: calc(100svh - var(--header-h));
+}
+
+/* Фото на левую половину, до краёв блока */
+.menu__photo {
+  position: relative;
+  flex: 0 0 50%;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Фото растянуто на весь блок: от низа шапки до низа экрана, лишнее обрезается */
+.menu__photo img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 40% 50%; /* в кадре тарелка с устрицами и рука */
+}
+
+/* Карточка — по центру свободной правой половины */
+.menu-card {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem var(--gutter);
+  cursor: zoom-in;
+}
+
+/* Обложка как в Canva: «Menu» по центру, «Chez Kristina» мелко внизу */
+.menu-card__paper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--menu-h);
+  aspect-ratio: 210 / 297;
+  background: var(--color-paper);
+  color: var(--color-menu-text);
+  box-shadow: 0 10px 28px rgba(10, 11, 10, 0.22);
+  transform: rotate(2deg); /* лёгкий наклон, как меню на столе */
+  transition: transform var(--transition), box-shadow var(--transition);
+  container-type: inline-size;
+}
+
+.menu-card:hover .menu-card__paper,
+.menu-card:focus-visible .menu-card__paper {
+  transform: rotate(0deg) scale(1.03);
+  box-shadow: 0 16px 36px rgba(10, 11, 10, 0.28);
+}
+
+.menu-card__title {
+  font-family: var(--font-script);
+  font-size: var(--cover-title-size);
+  line-height: 1;
+}
+
+/* Скетч устриц на обложке: посередине между верхом страницы и словом «Menu» */
+.cover-sketch {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: calc(50% + var(--cover-title-size) * 0.72); /* до верха букв «Menu» */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.book__page--cover .cover-sketch {
+  bottom: calc(50% + var(--cover-title-size) * 0.62);
+}
+
+.cover-sketch img {
+  display: block;
+  width: var(--sketch-width);
+  height: auto;
+}
+
+.menu-card__name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--footer-top);
+  font-family: var(--font-logo);
+  font-size: var(--footer-size);
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Окно с меню и книга
+   ========================================================================== */
+.menu-dialog {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: var(--gutter);
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+.menu-dialog[open] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-dialog::backdrop {
+  background: var(--color-backdrop);
+}
+
+.menu-dialog[open] .book {
+  animation: menu-open 0.4s ease;
+}
+
+@keyframes menu-open {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.menu-dialog__close {
+  position: absolute;
+  top: var(--gutter);
+  right: var(--gutter);
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--color-text-inverse);
+  background: rgba(10, 11, 10, 0.4);
+}
+
+.book {
+  --page-h: min(78vh, 760px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.book__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.book__tab {
+  padding: 0.35rem 0.9rem;
+  font-size: 0.95rem;
+  color: var(--color-text-inverse);
+  border: 1px solid rgba(251, 247, 231, 0.4);
+  border-radius: 999px;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.book__tab:hover,
+.book__tab[aria-current="true"] {
+  color: var(--color-menu-title);
+  background: var(--color-paper);
+}
+
+.book__pages {
+  position: relative;
+  width: min(calc(var(--page-h) * 210 / 297), calc(100vw - 2 * var(--gutter)));
+  aspect-ratio: 210 / 297;
+  perspective: 2200px;
+  container-type: inline-size; /* cqi на страницах — % ширины всей страницы */
+  cursor: pointer;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+/* Страница переворачивается на корешке слева */
+.book__page {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 14.5% 12% 0; /* сверху ~10% высоты страницы, как в Canva */
+  background:
+    radial-gradient(ellipse at center, transparent 65%, rgba(115, 103, 90, 0.12) 100%),
+    var(--color-paper);
+  color: var(--color-menu-text);
+  box-shadow: 0 12px 40px rgba(10, 11, 10, 0.35);
+  transform-origin: left center;
+  backface-visibility: hidden;
+  transition: transform 0.7s cubic-bezier(0.45, 0.05, 0.25, 1);
+}
+
+.book__page.is-turned {
+  transform: rotateY(-180deg);
+}
+
+.book__page.no-anim {
+  transition: none;
+}
+
+.book__page--cover {
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  text-align: center;
+}
+
+.book__cover-title {
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: var(--cover-title-size);
+  line-height: 1;
+}
+
+/* «Chez Kristina» внизу каждой страницы: без наклона, мелко, по центру */
+.book__footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--footer-top);
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-logo);
+  font-size: var(--footer-size);
+  line-height: 1;
+}
+
+.book__title {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: var(--page-title-size);
+  line-height: 1.1;
+  color: var(--color-menu-title);
+}
+
+/* Список стоит на том же месте страницы, что и в Canva */
+.book__list {
+  position: absolute;
+  top: var(--list-top);
+  left: 13.3%;
+  right: 13.3%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--dish-gap);
+}
+
+/* Блюдо: название жирным, состав строкой ниже, цена справа */
+.dish {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  /* как 15 pt на странице A4 в Canva, но не мельче 11 px на телефоне */
+  font-size: max(0.7rem, var(--dish-size));
+  line-height: 1.35;
+}
+
+.dish__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.dish__name {
+  font-weight: 700;
+}
+
+.dish__desc {
+  font-size: 0.8em; /* как 12 к 15 в Canva */
+}
+
+.dish__price {
+  flex: none;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.book__controls {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  color: var(--color-text-inverse);
+}
+
+.book__arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  color: var(--color-menu-title);
+  background: var(--color-paper);
+  transition: opacity var(--transition);
+}
+
+.book__arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.book__counter {
+  min-width: 3.5em;
+  text-align: center;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+}
+
+/* ==========================================================================
    Разделы-заглушки
    ========================================================================== */
 .section {
@@ -607,6 +952,32 @@ button {
 
   .about {
     --pattern-size: 300px;
+  }
+
+  /* Меню на телефоне: без фото и без наклона, с отступами от краёв экрана */
+  .menu__layout {
+    min-height: 0;
+  }
+
+  .menu__photo {
+    display: none;
+  }
+
+  .menu-card {
+    padding: 3rem 2rem;
+  }
+
+  .menu-card__paper,
+  .menu-card:hover .menu-card__paper,
+  .menu-card:focus-visible .menu-card__paper {
+    height: auto;
+    width: 100%;
+    max-width: 24rem;
+    transform: none;
+  }
+
+  .book {
+    --page-h: min(70vh, 640px);
   }
 }
 

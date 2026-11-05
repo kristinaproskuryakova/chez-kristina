@@ -16,7 +16,14 @@ const translations = {
     "about.1991": "Kristina fait du pain avec sa grand-mère",
     "about.2008": "Premier emploi : commis de cuisine dans un restaurant vietnamien à Paris",
     "about.2012": "Kristina devient sous-chef dans un bistrot parisien",
-    "about.2018": "Kristina revient à Veules-les-Tulipes et y ouvre son premier bistrot"
+    "about.2018": "Kristina revient à Veules-les-Tulipes et y ouvre son premier bistrot",
+    "menu.appetizers": "Entrées",
+    "menu.mains": "Plats",
+    "menu.wines": "Carte des vins",
+    "menu.open": "Ouvrir le menu",
+    "menu.close": "Fermer",
+    "menu.prev": "Page précédente",
+    "menu.next": "Page suivante"
   },
   en: {
     "nav.about": "About us",
@@ -32,7 +39,14 @@ const translations = {
     "about.1991": "Kristina making bread with her grandma",
     "about.2008": "First job as a cook assistant in the Vietnamese restaurant in Paris",
     "about.2012": "Kristina became a sous chef in a Parisian bistrot",
-    "about.2018": "Kristina comes back to Veules-les-Tulipes and opens her first bistrot there"
+    "about.2018": "Kristina comes back to Veules-les-Tulipes and opens her first bistrot there",
+    "menu.appetizers": "Appetizers",
+    "menu.mains": "Main course",
+    "menu.wines": "Wine List",
+    "menu.open": "Open the menu",
+    "menu.close": "Close",
+    "menu.prev": "Previous page",
+    "menu.next": "Next page"
   }
 };
 
@@ -71,6 +85,8 @@ function setLanguage(lang) {
 
   saveLang(lang);
   updateToggleLabel();
+  // Меню (js/menu.js) перерисовывает описания блюд на новом языке
+  document.dispatchEvent(new Event("sitelanguagechange"));
 }
 
 document.querySelectorAll(".lang-switch button").forEach((btn) => {
