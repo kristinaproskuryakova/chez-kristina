@@ -23,7 +23,24 @@ const translations = {
     "menu.open": "Ouvrir le menu",
     "menu.close": "Fermer",
     "menu.prev": "Page précédente",
-    "menu.next": "Page suivante"
+    "menu.next": "Page suivante",
+    "newsletter.title": "Restons en contact",
+    "newsletter.lead": "Abonnez-vous pour être les premiers informés de nos soirées, nouveautés et événements.",
+    "newsletter.button": "S'abonner",
+    "newsletter.dialogTitle": "Abonnez-vous à notre newsletter",
+    "newsletter.dialogLead": "Recevez en premier nos dernières nouvelles : soirées, nouveaux plats et événements du bistrot.",
+    "newsletter.label": "Votre e-mail",
+    "newsletter.consent1": "En vous abonnant à notre newsletter, vous acceptez de recevoir de notre part des communications marketing et des offres personnalisées par e-mail. Pour en savoir plus, consultez notre",
+    "newsletter.privacy": "politique de confidentialité",
+    "newsletter.and": "et notre",
+    "newsletter.cookies": "politique relative aux cookies",
+    "newsletter.consent2": "J'accepte de recevoir des informations du restaurant Chez Kristina à mon adresse e-mail.",
+    "newsletter.thanks": "Merci pour votre inscription !",
+    "newsletter.unsubscribe": "Vous pouvez vous désabonner à tout moment.",
+    "newsletter.errEmpty": "Veuillez saisir votre adresse e-mail.",
+    "newsletter.errInvalid": "Cette adresse e-mail ne semble pas correcte.",
+    "newsletter.errChecks": "Veuillez cocher les deux cases pour vous abonner.",
+    "newsletter.didYouMean": "Vous vouliez dire"
   },
   en: {
     "nav.about": "About us",
@@ -46,7 +63,24 @@ const translations = {
     "menu.open": "Open the menu",
     "menu.close": "Close",
     "menu.prev": "Previous page",
-    "menu.next": "Next page"
+    "menu.next": "Next page",
+    "newsletter.title": "Stay in touch",
+    "newsletter.lead": "Subscribe to be the first to hear about our evenings, news and events.",
+    "newsletter.button": "Subscribe",
+    "newsletter.dialogTitle": "Subscribe to our newsletter",
+    "newsletter.dialogLead": "Be the first to get our latest news: evenings, new dishes and bistro events.",
+    "newsletter.label": "Your email",
+    "newsletter.consent1": "By subscribing to our newsletter, you agree to receive personalized marketing communications and offers by email from us. Please see our",
+    "newsletter.privacy": "Privacy Policy",
+    "newsletter.and": "and",
+    "newsletter.cookies": "Cookie Policy",
+    "newsletter.consent2": "I agree to receive information from the Chez Kristina restaurant at my email address.",
+    "newsletter.thanks": "Thank you for subscribing!",
+    "newsletter.unsubscribe": "You can unsubscribe at any time.",
+    "newsletter.errEmpty": "Please enter your email address.",
+    "newsletter.errInvalid": "This email address doesn't look right.",
+    "newsletter.errChecks": "Please tick both boxes to subscribe.",
+    "newsletter.didYouMean": "Did you mean"
   }
 };
 

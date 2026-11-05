@@ -191,9 +191,15 @@
       </div>
     </section>
 
-    <!-- 5. Рассылка (пока пусто) -->
-    <section class="section section--placeholder" id="newsletter">
-      <h2 class="section__title" data-i18n="section.newsletter">Newsletter</h2>
+    <!-- 5. Рассылка: плашка с приглашением; подписка — во всплывающем окне ниже (js/newsletter.js) -->
+    <section class="section newsletter" id="newsletter">
+      <div class="newsletter__inner">
+        <div class="newsletter__text">
+          <h2 class="newsletter__title" data-i18n="newsletter.title">Restons en contact</h2>
+          <p class="newsletter__lead" data-i18n="newsletter.lead">Abonnez-vous pour être les premiers informés de nos soirées, nouveautés et événements.</p>
+        </div>
+        <button class="btn newsletter__open" type="button" aria-haspopup="dialog" aria-controls="newsletter-dialog" data-i18n="newsletter.button">S'abonner</button>
+      </div>
     </section>
   </main>
 
@@ -226,7 +232,54 @@
     </div>
   </dialog>
 
+  <!-- Окно подписки на рассылку: email, две обязательные галочки, затем сообщение «спасибо» -->
+  <dialog class="nl-dialog" id="newsletter-dialog" aria-labelledby="nl-dialog-title">
+    <div class="nl-dialog__box">
+      <button class="nl-dialog__close" type="button" data-close-newsletter>
+        <span aria-hidden="true">×</span>
+        <span class="visually-hidden" data-i18n="menu.close">Fermer</span>
+      </button>
+
+      <form class="nl-form" novalidate>
+        <h2 class="nl-dialog__title" id="nl-dialog-title" data-i18n="newsletter.dialogTitle">Abonnez-vous à notre newsletter</h2>
+        <p class="nl-dialog__lead" data-i18n="newsletter.dialogLead">Recevez en premier nos dernières nouvelles : soirées, nouveaux plats et événements du bistrot.</p>
+
+        <label class="nl-form__label" for="newsletter-email" data-i18n="newsletter.label">Votre e-mail</label>
+        <input class="nl-form__input" id="newsletter-email" name="email" type="email"
+               required autocomplete="email" inputmode="email" placeholder="votre@email.fr"
+               aria-describedby="newsletter-email-error">
+        <p class="nl-form__error" id="newsletter-email-error" aria-live="polite"></p>
+
+        <label class="nl-form__check">
+          <input type="checkbox" name="marketing" required aria-describedby="newsletter-check-error">
+          <span>
+            <span data-i18n="newsletter.consent1">En vous abonnant à notre newsletter, vous acceptez de recevoir de notre part des communications marketing et des offres personnalisées par e-mail. Pour en savoir plus, consultez notre</span>
+            <a href="privacy.html" target="_blank" rel="noopener" data-i18n="newsletter.privacy">politique de confidentialité</a>
+            <span data-i18n="newsletter.and">et notre</span>
+            <a href="cookies.html" target="_blank" rel="noopener" data-i18n="newsletter.cookies">politique relative aux cookies</a>.
+          </span>
+        </label>
+
+        <label class="nl-form__check">
+          <input type="checkbox" name="contact" required aria-describedby="newsletter-check-error">
+          <span data-i18n="newsletter.consent2">J'accepte de recevoir des informations du restaurant Chez Kristina à mon adresse e-mail.</span>
+        </label>
+        <p class="nl-form__error" id="newsletter-check-error" aria-live="polite"></p>
+
+        <button class="btn nl-form__submit" type="submit" data-i18n="newsletter.button">S'abonner</button>
+      </form>
+
+      <!-- После подписки форма прячется и показывается это сообщение -->
+      <div class="nl-done" hidden>
+        <p class="nl-done__check" aria-hidden="true">✓</p>
+        <p class="nl-done__title" data-i18n="newsletter.thanks">Merci pour votre inscription !</p>
+        <p class="nl-done__text" data-i18n="newsletter.unsubscribe">Vous pouvez vous désabonner à tout moment.</p>
+      </div>
+    </div>
+  </dialog>
+
   <script src="js/main.js"></script>
   <script src="js/menu.js"></script>
+  <script src="js/newsletter.js"></script>
 </body>
 </html>

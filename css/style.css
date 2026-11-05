@@ -65,6 +65,7 @@
   --color-menu-title: var(--green-600); /* заголовки страниц меню */
   --color-menu-text: var(--sage-700);   /* блюда и цены */
   --color-backdrop: rgba(10, 11, 10, 0.65); /* затемнение страницы под окном меню */
+  --color-error: #9b2c2c;               /* ошибки в формах */
 
   /* Пропорции страниц меню из Canva (cqi — % ширины страницы) */
   --cover-title-size: 19cqi;  /* «Menu» на обложке */
@@ -933,6 +934,248 @@ button {
 .collage__item--dining    { grid-area: dining;    --focus: 50% 40%; }
 
 /* ==========================================================================
+   Рассылка: плашка с приглашением и кнопкой
+   ========================================================================== */
+/* Всё по центру в одну колонку: заголовок, строка, под ними кнопка */
+.section.newsletter {
+  padding: 2.5rem var(--gutter);
+  background: var(--color-bg-alt);
+}
+
+.newsletter__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  max-width: 36rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.newsletter__title {
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  line-height: 1.1;
+  color: var(--color-accent);
+}
+
+.newsletter__lead {
+  margin: 0.3rem 0 0;
+  font-size: 0.95rem;
+}
+
+.newsletter__open {
+  padding: 0.7rem 1.8rem;
+  font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   Окно подписки
+   ========================================================================== */
+.nl-dialog {
+  width: min(32rem, calc(100vw - 2 * var(--gutter)));
+  max-height: calc(100svh - 2 * var(--gutter));
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: var(--color-paper);
+  color: var(--color-menu-text);
+  box-shadow: 0 20px 60px rgba(10, 11, 10, 0.4);
+}
+
+.nl-dialog::backdrop {
+  background: var(--color-backdrop);
+}
+
+.nl-dialog[open] {
+  animation: menu-open 0.35s ease;
+}
+
+.nl-dialog__box {
+  position: relative;
+  padding: 2.5rem 2rem 2rem;
+}
+
+.nl-dialog__close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 40px;
+  height: 40px;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--color-text-muted);
+}
+
+.nl-dialog__title {
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: 2.4rem;
+  line-height: 1.1;
+  color: var(--color-menu-title);
+}
+
+.nl-dialog__lead {
+  margin: 0.6rem 0 1.5rem;
+}
+
+.nl-form__label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.nl-form__input {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  font: inherit;
+  color: inherit;
+  background: var(--brown-100);
+  border: 1px solid var(--sage-300);
+  border-radius: 2px;
+}
+
+.nl-form__input:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.nl-form__input[aria-invalid="true"] {
+  border-color: var(--color-error);
+}
+
+.nl-form__error {
+  min-height: 1.3em;
+  margin: 0.35rem 0 0.8rem;
+  font-size: 0.85rem;
+  color: var(--color-error);
+}
+
+.nl-form__suggest {
+  padding: 0;
+  font-size: inherit;
+  color: var(--color-menu-title);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Галочки согласия */
+.nl-form__check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  margin-bottom: 0.9rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.nl-form__check input {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0.15rem 0 0;
+  accent-color: var(--color-menu-title);
+  cursor: pointer;
+}
+
+.nl-form__check input[aria-invalid="true"] {
+  outline: 2px solid var(--color-error);
+  outline-offset: 1px;
+}
+
+.nl-form__check a {
+  color: var(--color-menu-title);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.nl-form__submit {
+  width: 100%;
+  margin-top: 0.4rem;
+  text-align: center;
+}
+
+/* Сообщение после подписки */
+.nl-done {
+  padding: 1.5rem 0 0.5rem;
+  text-align: center;
+}
+
+.nl-done__check {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  color: var(--color-paper);
+  background: var(--color-menu-title);
+}
+
+.nl-done__title {
+  margin: 0;
+  font-family: var(--font-script);
+  font-size: 2.4rem;
+  line-height: 1.1;
+  color: var(--color-menu-title);
+}
+
+.nl-done__text {
+  margin: 0.6rem 0 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   Страницы политики конфиденциальности и cookies
+   ========================================================================== */
+.legal-page {
+  background: var(--color-paper);
+}
+
+.legal {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem var(--gutter) 4rem;
+}
+
+.legal__back {
+  font-size: 0.95rem;
+  color: var(--color-accent);
+}
+
+.legal__title {
+  margin: 1.5rem 0 0.25rem;
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 7vw, 3.5rem);
+  line-height: 1.1;
+  color: var(--color-menu-title);
+}
+
+.legal__updated {
+  margin: 0 0 2rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.legal h2 {
+  margin: 2rem 0 0.5rem;
+  font-size: 1.15rem;
+  color: var(--color-menu-title);
+}
+
+.legal p {
+  margin: 0 0 0.8rem;
+}
+
+/* ==========================================================================
    Разделы-заглушки
    ========================================================================== */
 .section {
@@ -1015,6 +1258,14 @@ button {
 
   .about {
     --pattern-size: 300px;
+  }
+
+  .nl-dialog__box {
+    padding: 2.5rem 1.25rem 1.5rem;
+  }
+
+  .newsletter__open {
+    width: auto;
   }
 
   /* Коллаж на телефоне: две колонки, высокие фото по-прежнему на два ряда */
