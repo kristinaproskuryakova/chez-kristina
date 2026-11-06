@@ -16,7 +16,7 @@
 
   <!-- Шапка (компьютер) -->
   <header class="site-header" id="top">
-    <nav class="site-nav" aria-label="Navigation principale">
+    <nav class="site-nav" aria-label="Navigation principale" data-i18n-label="a11y.mainNav">
       <ul class="nav-group nav-group--left">
         <li><a href="#about" data-i18n="nav.about">À propos</a></li>
         <li><a href="#menu" data-i18n="nav.menu">Menu</a></li>
@@ -52,7 +52,7 @@
     <span class="visually-hidden" data-i18n="nav.open">Ouvrir le menu</span>
   </button>
 
-  <nav class="mobile-nav" id="mobile-nav" aria-label="Navigation mobile" hidden>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Navigation mobile" data-i18n-label="a11y.mobileNav" hidden>
     <a class="logo" href="#top" aria-label="Chez Kristina">
       <span>Chez</span>
       <span>Kristina</span>
@@ -270,12 +270,12 @@
 
     <div class="footer-bottom">
       <span>© 2026 Chez Kristina</span>
-      <nav class="footer-legal" aria-label="Informations légales">
-        <a href="disclaimer.html" data-i18n="footer.disclaimer">Mentions légales</a>
-        <a href="terms.html" data-i18n="footer.terms">Conditions d'utilisation</a>
-        <a href="privacy.html" data-i18n="footer.privacy">Protection des données</a>
-        <a href="cookies.html" data-i18n="footer.cookies">Cookies</a>
-        <a href="accessibility.html" data-i18n="footer.accessibility">Accessibilité</a>
+      <nav class="footer-legal" aria-label="Informations légales" data-i18n-label="a11y.legalNav">
+        <a href="disclaimer.html" data-legal="disclaimer" data-i18n="footer.disclaimer">Mentions légales</a>
+        <a href="terms.html" data-legal="terms" data-i18n="footer.terms">Conditions d'utilisation</a>
+        <a href="privacy.html" data-legal="privacy" data-i18n="footer.privacy">Protection des données</a>
+        <a href="cookies.html" data-legal="cookies" data-i18n="footer.cookies">Cookies</a>
+        <a href="accessibility.html" data-legal="accessibility" data-i18n="footer.accessibility">Accessibilité</a>
         <button class="footer-legal__button" type="button" data-open-cookies data-i18n="cookies.manage">Gérer les cookies</button>
       </nav>
     </div>
@@ -319,7 +319,7 @@
 
         <label class="nl-form__label" for="newsletter-email" data-i18n="newsletter.label">Votre e-mail</label>
         <input class="nl-form__input" id="newsletter-email" name="email" type="email"
-               required autocomplete="email" inputmode="email" placeholder="votre@email.fr"
+               required autocomplete="email" inputmode="email" placeholder="votre@email.fr" data-i18n-placeholder="newsletter.placeholder"
                aria-describedby="newsletter-email-error">
         <p class="nl-form__error" id="newsletter-email-error" aria-live="polite"></p>
 
@@ -327,9 +327,9 @@
           <input type="checkbox" name="marketing" required aria-describedby="newsletter-check-error">
           <span>
             <span data-i18n="newsletter.consent1">En vous abonnant à notre newsletter, vous acceptez de recevoir de notre part des communications marketing et des offres personnalisées par e-mail. Pour en savoir plus, consultez notre</span>
-            <a href="privacy.html" target="_blank" rel="noopener" data-i18n="newsletter.privacy">politique de confidentialité</a>
+            <a href="privacy.html" data-legal="privacy" target="_blank" rel="noopener" data-i18n="newsletter.privacy">politique de confidentialité</a>
             <span data-i18n="newsletter.and">et notre</span>
-            <a href="cookies.html" target="_blank" rel="noopener" data-i18n="newsletter.cookies">politique relative aux cookies</a>.
+            <a href="cookies.html" data-legal="cookies" target="_blank" rel="noopener" data-i18n="newsletter.cookies">politique relative aux cookies</a>.
           </span>
         </label>
 
@@ -403,7 +403,7 @@
 
         <label class="nl-form__label" for="bk-phone" data-i18n="booking.phone">Téléphone</label>
         <div class="bk-phone">
-          <select class="nl-form__input bk-phone__code" id="bk-code" name="code" aria-label="Indicatif pays"></select>
+          <select class="nl-form__input bk-phone__code" id="bk-code" name="code" aria-label="Indicatif pays" data-i18n-label="a11y.phoneCode"></select>
           <input class="nl-form__input" id="bk-phone" name="phone" type="tel" required autocomplete="tel-national"
                  inputmode="tel" placeholder="06 12 34 56 78" aria-describedby="bk-phone-error">
         </div>
@@ -414,7 +414,7 @@
 
         <p class="bk-note">
           <span data-i18n="booking.dataNote">Vos coordonnées servent uniquement à traiter votre réservation.</span>
-          <a href="privacy.html" target="_blank" rel="noopener" data-i18n="footer.privacy">Protection des données</a>
+          <a href="privacy.html" data-legal="privacy" target="_blank" rel="noopener" data-i18n="footer.privacy">Protection des données</a>
         </p>
 
         <button class="btn nl-form__submit" type="submit" data-i18n="booking.submit">Réserver</button>
@@ -435,7 +435,7 @@
     <h2 class="cookie-banner__title" id="cookie-title" data-i18n="cookies.title">Cookies</h2>
     <p class="cookie-banner__text" id="cookie-text">
       <span data-i18n="cookies.text">Nous utilisons des cookies nécessaires au fonctionnement du site. Avec votre accord, nous affichons aussi la carte Google Maps, qui dépose ses propres cookies.</span>
-      <a href="cookies.html" target="_blank" rel="noopener" data-i18n="cookies.policy">Politique relative aux cookies</a>
+      <a href="cookies.html" data-legal="cookies" target="_blank" rel="noopener" data-i18n="cookies.policy">Politique relative aux cookies</a>
     </p>
 
     <!-- Настройки по категориям: раскрываются кнопкой «Personnaliser» -->

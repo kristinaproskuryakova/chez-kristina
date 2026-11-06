@@ -19,13 +19,13 @@ const BOOKING = {
 // example — как номер обычно пишут в этой стране: подсказка в поле и в сообщении об ошибке
 const PHONE_CODES = [
   { code: "+33", country: "France", digits: [9], example: "06 12 34 56 78" },
-  { code: "+32", country: "Belgique", digits: [8, 9], example: "0470 12 34 56" },
-  { code: "+41", country: "Suisse", digits: [9], example: "079 123 45 67" },
-  { code: "+44", country: "Royaume-Uni", digits: [10], example: "07700 900123" },
-  { code: "+49", country: "Allemagne", digits: [10, 11], example: "01512 3456789" },
-  { code: "+34", country: "Espagne", digits: [9], example: "612 34 56 78" },
-  { code: "+39", country: "Italie", digits: [9, 10], example: "312 345 6789" },
-  { code: "+31", country: "Pays-Bas", digits: [9], example: "06 12345678" },
+  { code: "+32", country: "Belgique", countryEn: "Belgium", digits: [8, 9], example: "0470 12 34 56" },
+  { code: "+41", country: "Suisse", countryEn: "Switzerland", digits: [9], example: "079 123 45 67" },
+  { code: "+44", country: "Royaume-Uni", countryEn: "United Kingdom", digits: [10], example: "07700 900123" },
+  { code: "+49", country: "Allemagne", countryEn: "Germany", digits: [10, 11], example: "01512 3456789" },
+  { code: "+34", country: "Espagne", countryEn: "Spain", digits: [9], example: "612 34 56 78" },
+  { code: "+39", country: "Italie", countryEn: "Italy", digits: [9, 10], example: "312 345 6789" },
+  { code: "+31", country: "Pays-Bas", countryEn: "Netherlands", digits: [9], example: "06 12345678" },
   { code: "+1", country: "USA / Canada", digits: [10], example: "212 555 0123" },
   { code: "", country: "Autre", digits: null, example: "+380 00 000 0000" }
 ];
@@ -274,8 +274,10 @@ function renderTimes() {
 
 function renderCodes() {
   const current = bkCode.value || "+33";
-  bkCode.replaceChildren(...PHONE_CODES.map(({ code, country }) => {
-    const option = bkEl("option", "", code ? `${code} ${country}` : bkText("booking.otherCode"));
+  const en = document.documentElement.lang === "en";
+  bkCode.replaceChildren(...PHONE_CODES.map(({ code, country, countryEn }) => {
+    const name = en && countryEn ? countryEn : country;
+    const option = bkEl("option", "", code ? `${code} ${name}` : bkText("booking.otherCode"));
     option.value = code;
     return option;
   }));

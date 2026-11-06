@@ -1375,6 +1375,20 @@ button {
   padding: 3rem var(--gutter) 4rem;
 }
 
+.legal__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.legal__lang {
+  font-size: 0.95rem;
+  color: var(--color-menu-title);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .legal__back {
   font-size: 0.95rem;
   color: var(--color-accent);

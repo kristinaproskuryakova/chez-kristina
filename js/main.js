@@ -30,6 +30,12 @@ const translations = {
     "newsletter.dialogTitle": "Abonnez-vous à notre newsletter",
     "newsletter.dialogLead": "Recevez en premier nos dernières nouvelles : soirées, nouveaux plats et événements du bistrot.",
     "newsletter.label": "Votre e-mail",
+    "newsletter.placeholder": "votre@email.fr",
+    "meta.title": "Chez Kristina — bistrot, Veules-les-Tulipes",
+    "a11y.mainNav": "Navigation principale",
+    "a11y.mobileNav": "Navigation mobile",
+    "a11y.legalNav": "Informations légales",
+    "a11y.phoneCode": "Indicatif pays",
     "newsletter.consent1": "En vous abonnant à notre newsletter, vous acceptez de recevoir de notre part des communications marketing et des offres personnalisées par e-mail. Pour en savoir plus, consultez notre",
     "newsletter.privacy": "politique de confidentialité",
     "newsletter.and": "et notre",
@@ -126,6 +132,12 @@ const translations = {
     "newsletter.dialogTitle": "Subscribe to our newsletter",
     "newsletter.dialogLead": "Be the first to get our latest news: evenings, new dishes and bistro events.",
     "newsletter.label": "Your email",
+    "newsletter.placeholder": "your@email.com",
+    "meta.title": "Chez Kristina — bistro, Veules-les-Tulipes",
+    "a11y.mainNav": "Main navigation",
+    "a11y.mobileNav": "Mobile navigation",
+    "a11y.legalNav": "Legal information",
+    "a11y.phoneCode": "Country code",
     "newsletter.consent1": "By subscribing to our newsletter, you agree to receive personalized marketing communications and offers by email from us. Please see our",
     "newsletter.privacy": "Privacy Policy",
     "newsletter.and": "and",
@@ -223,6 +235,23 @@ function setLanguage(lang) {
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     const text = dict[el.dataset.i18n];
     if (text) el.textContent = text;
+  });
+
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    const text = dict[el.dataset.i18nPlaceholder];
+    if (text) el.placeholder = text;
+  });
+
+  document.querySelectorAll("[data-i18n-label]").forEach((el) => {
+    const text = dict[el.dataset.i18nLabel];
+    if (text) el.setAttribute("aria-label", text);
+  });
+
+  if (dict["meta.title"]) document.title = dict["meta.title"];
+
+  // Юридические страницы: на английском ведём на privacy-en.html и т. д.
+  document.querySelectorAll("[data-legal]").forEach((link) => {
+    link.setAttribute("href", `${link.dataset.legal}${lang === "en" ? "-en" : ""}.html`);
   });
 
   document.querySelectorAll(".lang-switch button").forEach((btn) => {
